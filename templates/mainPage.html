@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>An Internet Forum</title>
+</head>
+<body>
+    <table>
+        <tr><td><b>Thread name</b></td></tr>
+        {% for thread in threads %}
+            <tr><td>{{ thread }}</td></tr>
+        {% endfor %}
+    </table>
+    <form action="create-new-thread" method="post">
+        Name
+        <input type="text" name="op-name"><br/>
+        Thread title <br/>
+        <input type="text" name="thread-title"><br/>
+        Comment<br/>
+        <textarea style="resize: both" type="text" name="thread-start-comment"></textarea><br/>
+        <input type="submit" value="New thread">
+    </form>
+</body>
+</html>
