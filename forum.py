@@ -17,8 +17,7 @@ def save_thread_data():
 
 @app.route("/")
 def main_page():
-    thread_titles = [thread["thread-title"] for thread in thread_data.itervalues()]
-    return render_template("mainPage.html", threads=thread_titles)
+    return render_template("mainPage.html", threads=thread_data)
 
 
 @app.route("/create-new-thread", methods=["POST", "GET"])
