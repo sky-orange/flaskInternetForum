@@ -1,34 +1,40 @@
-from flask import Flask, render_template, redirect, request
+from flask import Flask, render_template, redirect, request, url_for
 import json
 app = Flask(__name__)
 
 
 try:
-    with open("threadData.json") as json_data:
-        thread_data = json.load(json_data)
+    with open("threadsData.json") as json_data:
+        threads_data = json.load(json_data)
 except IOError:
-    thread_data = {}
+    threads_data = {}
 
 
 def save_thread_data():
-    with open("threadData.json", "w") as outfile:
-        json.dump(thread_data, outfile)
+    with open("threadsData.json", "w") as outfile:
+        json.dump(threads_data, outfile)
+
+
+def add_new_comment():
+    pass
 
 
 @app.route("/")
 def main_page():
-    return render_template("mainPage.html", threads=thread_data)
+    return render_template("mainPage.html", threads=threads_data)
 
 
 @app.route("/create-new-thread", methods=["POST", "GET"])
 def create_new_thread():
-    new_thread_number = len(thread_data)
-    thread_data[new_thread_number] = request.form
+    global threads_data
+    new_thread_number = str(len(threads_data))
+    threads_data[new_thread_number] = request.form
     save_thread_data()
-    new_thread_url = "/thread/" + str(new_thread_number)
-    return redirect(new_thread_url)
+    return redirect(url_for("thread_page", thread_number=new_thread_number))
 
 
-@app.route("/thread/<url>")
-def thread_page(url):
-    return render_template("threadPage.html")
+@app.route("/thread/<thread_number>", methods=["POST", "GET"])
+def thread_page(thread_number):
+    if request.method=="POST" and "New comment" in request.form:
+        add_new_comment()
+    return render_template("threadPage.html", thread=threads_data[thread_number])

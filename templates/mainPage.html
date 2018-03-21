@@ -8,9 +8,10 @@
     <table border="1">
         <tr><td><b>Thread name</b></td></tr>
         {% for thread in threads %}
-        <tr><td><a href="thread/{{thread}}">{{ threads[thread]["thread-title"] }}</a></td></tr>
+        <tr><td><a href="{{ url_for("thread_page", thread_number=thread) }}">{{ threads[thread]["thread-title"] }}</a></td></tr>
         {% endfor %}
     </table>
+    <br/>
     <form action="create-new-thread" method="post">
         Name
         <input type="text" name="op-name"><br/>

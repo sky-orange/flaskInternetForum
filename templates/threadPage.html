@@ -2,9 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>{{ thread["thread-title"] }}</title>
 </head>
 <body>
-$END$
+    <table border="1">
+        <tr><font size="12"><b>{{ thread["thread-title"] }}</b></font></tr>
+        <tr>
+            <td><b>{{ thread["op-name"] }}</b></td>
+            <td>{{ thread["thread-start-comment"] }}</td>
+        </tr>
+    </table>
+    <form action="#" method="post">
+        Name
+        <input type="text" name="poster-name"><br/>
+        Comment<br/>
+        <textarea style="resize: both" type="text" name="comment"></textarea><br/>
+        <input type="submit" value="New comment">
+    </form>
 </body>
 </html>
