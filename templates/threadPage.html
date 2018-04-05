@@ -12,11 +12,11 @@
             <td>{{ thread["thread-start-comment"] }}</td>
         </tr>
     </table>
-    <form action="#" method="post">
+    <form action="./create-new-comment" method="post">
         Name
-        <input type="text" name="poster-name"><br/>
+        <input type="text" name="user-name"><br/>
         Comment<br/>
-        <textarea style="resize: both" type="text" name="comment"></textarea><br/>
+        <textarea style="resize: both" type="text" name="comment-text"></textarea><br/>
         <input type="submit" value="New comment">
     </form>
 </body>

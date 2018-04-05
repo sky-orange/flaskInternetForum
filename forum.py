@@ -3,20 +3,40 @@ import json
 app = Flask(__name__)
 
 
-try:
+def load_threads_data():
+    global threads_data
     with open("threadsData.json") as json_data:
         threads_data = json.load(json_data)
+
+
+def save_threads_data():
+    with open("threadsData.json", "w") as outfile:
+        json.dump(threads_data, outfile, indent=2)
+
+
+try:
+    load_threads_data()
 except IOError:
     threads_data = {}
 
 
-def save_thread_data():
-    with open("threadsData.json", "w") as outfile:
-        json.dump(threads_data, outfile)
+@app.route("/thread/<thread_number>/create-new-comment", methods=["POST"])
+def add_new_comment(thread_number):
+    global threads_data
+    load_threads_data()
+    threads_data[thread_number]["comments"].append({k: v for k, v in request.form.iteritems()})
+    save_threads_data()
+    return redirect("thread/" + thread_number)
 
 
-def add_new_comment():
-    pass
+@app.route("/create-new-thread", methods=["POST"])
+def create_new_thread():
+    global threads_data
+    new_thread_number = str(len(threads_data))
+    threads_data[new_thread_number] = {k: v for k, v in request.form.iteritems()}
+    threads_data[new_thread_number]["comments"] = []
+    save_threads_data()
+    return redirect(url_for("thread_page", thread_number=new_thread_number))
 
 
 @app.route("/")
@@ -24,17 +44,6 @@ def main_page():
     return render_template("mainPage.html", threads=threads_data)
 
 
-@app.route("/create-new-thread", methods=["POST", "GET"])
-def create_new_thread():
-    global threads_data
-    new_thread_number = str(len(threads_data))
-    threads_data[new_thread_number] = request.form
-    save_thread_data()
-    return redirect(url_for("thread_page", thread_number=new_thread_number))
-
-
-@app.route("/thread/<thread_number>", methods=["POST", "GET"])
+@app.route("/thread/<thread_number>/", methods=["GET"])
 def thread_page(thread_number):
-    if request.method=="POST" and "New comment" in request.form:
-        add_new_comment()
     return render_template("threadPage.html", thread=threads_data[thread_number])
