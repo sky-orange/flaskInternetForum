@@ -24,7 +24,7 @@ except IOError:
 def add_new_comment(thread_number):
     global threads_data
     load_threads_data()
-    threads_data[thread_number]["comments"].append({k: v for k, v in request.form.iteritems()})
+    threads_data[thread_number]["comments"].append(request.form.to_dict())
     save_threads_data()
     return redirect("thread/" + thread_number)
 
@@ -33,7 +33,7 @@ def add_new_comment(thread_number):
 def create_new_thread():
     global threads_data
     new_thread_number = str(len(threads_data))
-    threads_data[new_thread_number] = {k: v for k, v in request.form.iteritems()}
+    threads_data[new_thread_number] = request.form.to_dict()
     threads_data[new_thread_number]["comments"] = []
     save_threads_data()
     return redirect(url_for("thread_page", thread_number=new_thread_number))
