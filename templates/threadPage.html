@@ -11,6 +11,12 @@
             <td><b>{{ thread["op-name"] }}</b></td>
             <td>{{ thread["thread-start-comment"] }}</td>
         </tr>
+        {% for comment in thread["comments"] %}
+        <tr>
+            <td><b>{{ comment["user-name"] }}</b></td>
+            <td>{{ comment["comment-text"] }}</td>
+        </tr>
+        {% endfor %}
     </table>
     <form action="./create-new-comment" method="post">
         Name
