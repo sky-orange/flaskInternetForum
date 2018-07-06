@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>An Internet Forum</title>
-</head>
-<body>
+{% extends "baseTemplate.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
     <table border="1">
         <tr><td><b>Thread name</b></td></tr>
         {% for thread in threads %}
@@ -21,5 +17,4 @@
         <textarea style="resize: both" type="text" name="thread-start-comment"></textarea><br/>
         <input type="submit" value="New thread">
     </form>
-</body>
-</html>
+{% endblock %}
