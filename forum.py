@@ -23,7 +23,6 @@ except IOError:
 @app.route("/thread/<thread_number>/create-new-comment", methods=["POST"])
 def add_new_comment(thread_number):
     global threads_data
-    load_threads_data()
     threads_data[thread_number]["comments"].append(request.form.to_dict())
     save_threads_data()
     return redirect("thread/" + thread_number)
